@@ -1,0 +1,56 @@
+{
+    "version": "2.0.0",
+    "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+    },
+    "tasks": [
+		{
+			"label": "r/up",
+			"type": "shell",
+			"command": "bash -i run.sh up",
+			"isBackground": true,
+		},
+		{
+			"label": "r/up:logdip",
+			"type": "shell",
+			"command": "bash -i run.sh up:logdip",
+			"isBackground": true,
+		},
+		{
+			"label": "r/build:logdip",
+			"type": "shell",
+			"command": "bash -i run.sh build:logdip",
+		},
+		{
+			"label": "r/wire:logdip",
+			"type": "shell",
+			"command": "bash -i run.sh wire:logdip",
+		},
+		{
+			"label": "r/up:compose",
+			"type": "shell",
+			"command": "bash -i run.sh up:compose",
+			"isBackground": true,
+		},
+		{
+			"label": "r/lint",
+			"type": "shell",
+			"command": "bash -i run.sh lint",
+		},
+		{
+			"label": "r/test",
+			"type": "shell",
+			"command": "bash -i run.sh test",
+		},
+		{
+			"label": "r/env:prod",
+			"type": "shell",
+			"command": "bash -i run.sh env:prod",
+		},
+    ],
+}

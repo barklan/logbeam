@@ -1,11 +1,11 @@
-version: "3.8"
+version: "3.9"
 
 services:
-  myapp:
-    image: '${DOCKER_IMAGE_PREFIX?Variable not set}myapp:rolling'
+  logdip:
+    image: '${DOCKER_IMAGE_PREFIX?Variable not set}logdip:rolling'
     build:
       context: .
-      dockerfile: dockerfiles/myapp.dockerfile
+      dockerfile: dockerfiles/logdip.dockerfile
       args:
         DOCKER_IMAGE_PREFIX: ${DOCKER_IMAGE_PREFIX?Variable not set}
         BUILDKIT_INLINE_CACHE: 1

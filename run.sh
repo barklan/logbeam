@@ -30,21 +30,16 @@ up() {
     reflex -c reflex.conf --decoration=fancy
 }
 
-up:myapp() {
+up:logdip() {
     _use_env
-    go run ./cmd/myapp "${@}"
+    go run ./cmd/logdip "${@}"
 }
 
-build:myapp() {
+build:logdip() {
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOGC=off go build \
-    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/myapp/myapp ./cmd/myapp/.
+    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logdip/logdip ./cmd/logdip/.
     CGO_ENABLED=0 GOOS=windows GOARCH=amd64 GOGC=off go build \
-    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/myapp/myapp.exe ./cmd/myapp/.
-}
-
-wire:myapp() {
-    go install github.com/google/wire/cmd/wire@latest
-    cd ./cmd/myapp && wire
+    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logdip/logdip.exe ./cmd/logdip/.
 }
 
 up:compose() {

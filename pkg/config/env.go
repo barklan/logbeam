@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	FastCacheSize int `env:"MYAPP_FAST_CACHE_SIZE"`
+	FastCacheSize int `env:"logdip_FAST_CACHE_SIZE"`
 }
 
 func Read() (*Config, error) {
