@@ -7,7 +7,7 @@ import (
 	"go.uber.org/goleak"
 )
 
-func TestMain(m *testing.M) { //nolint:interfacer
+func TestMain(m *testing.M) {
 	goleak.VerifyTestMain(m)
 }
 
@@ -23,10 +23,9 @@ func TestGetInternalEnv(t *testing.T) {
 		{"prod environment", "prod", ProdEnv, false},
 		{"default environment", "", ProdEnv, false},
 	}
-	for _, tt := range tests {
+	for _, tt := range tests { // nolint:paralleltest
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
 			os.Setenv(InternalEnvKey, tt.envValue)
 			got, got1 := GetInternalEnv()
 			if got != tt.want {

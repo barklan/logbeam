@@ -27,11 +27,6 @@
 			"command": "bash -i run.sh build:logdip",
 		},
 		{
-			"label": "r/wire:logdip",
-			"type": "shell",
-			"command": "bash -i run.sh wire:logdip",
-		},
-		{
 			"label": "r/up:compose",
 			"type": "shell",
 			"command": "bash -i run.sh up:compose",
@@ -48,9 +43,19 @@
 			"command": "bash -i run.sh test",
 		},
 		{
+			"label": "r/test:e2e",
+			"type": "shell",
+			"command": "bash -i run.sh test:e2e",
+		},
+		{
 			"label": "r/env:prod",
 			"type": "shell",
 			"command": "bash -i run.sh env:prod",
+		},
+		{
+			"label": "r/docs:dev",
+			"type": "shell",
+			"command": "bash -i run.sh docs:dev",
 		},
     ],
 }

@@ -7,6 +7,3 @@
 - `LOGDIP_RETENTION_HOURS` - retention time (in hours) for logs
 
 ## Ingestion
-
-
-

@@ -1,12 +1,23 @@
-openapi: '3.0.2'
+openapi: "3.1.0"
 info:
+  description: API documentation for logdip
+  license:
+    name: MIT
+    identifier: MIT
+    url: LICENSE
   title: LogDip API
-  version: '0.0.1'
+  version: "0.0.1"
 servers:
-  - url: https://api.server.test/v1
+  - url: https://localhost:9010/api
 paths:
-  /test:
-    get:
+  /loginput/fluentd:
+    post:
+      operationId: "fluentdInput"
+      summary: Fluentd input.
       responses:
-        '200':
-          description: OK
+        "200":
+          description: "OK"
+        "401":
+          description: "Not Authorized"
+        "403":
+          description: "Forbidden"
