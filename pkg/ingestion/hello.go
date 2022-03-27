@@ -4,5 +4,5 @@ import (
 	"net/http"
 )
 
-func (c *PublicCtrl) helloHandler(w http.ResponseWriter, r *http.Request) { //nolint:unparam
+func (c *PublicCtrl) helloHandler(w http.ResponseWriter, r *http.Request) {
 }

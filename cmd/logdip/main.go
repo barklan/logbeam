@@ -29,11 +29,15 @@ func main() {
 	g := new(errgroup.Group)
 	ingestCtrl := ingestion.NewCtrl(lg, cfg)
 	g.Go(func() error {
-		return ingestCtrl.Serve()
+		if err := ingestCtrl.Serve(); err != nil {
+			return fmt.Errorf("failed to serve ingestion service: %w", err)
+		}
+
+		return nil
 	})
 
 	if err := g.Wait(); err == nil {
-		fmt.Println("main exited")
+		lg.Info("main exited")
 	} else {
 		log.Panic(err)
 	}
