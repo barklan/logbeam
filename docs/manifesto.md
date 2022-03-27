@@ -4,11 +4,11 @@ Short-term (1-5 days) log aggregation from fluentd. Meant to be an deployed in a
 
 ### API schema design.
 
-...
+In progress
 
 ### Logging plan
 
-...
+Use zap to log to stdout. Log errors, warnings and changes in application state.
 
 ### Monitoring plan.
 
