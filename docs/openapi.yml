@@ -1,11 +1,11 @@
 openapi: "3.1.0"
 info:
-  description: API documentation for logdip
+  description: API documentation for logbeam
   license:
     name: MIT
     identifier: MIT
     url: LICENSE
-  title: LogDip API
+  title: LogBeam API
   version: "0.0.1"
 servers:
   - url: http://localhost:9010/api
@@ -30,6 +30,18 @@ components:
           application/json:
             schema:
               $ref: '#/components/schemas/Error'
+      NotFound:
+        description: Not Found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      InternalServerError:
+        description: Internal Server Error
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
 
   schemas:
     Error:
@@ -37,24 +49,87 @@ components:
       properties:
         msg:
           type: string
+    AuthToken:
+      type: object
+      properties:
+        acess_token:
+          type: string
+
+  securitySchemes:
+    BearerAuth:
+      type: apiKey
+      name: Authorization
+      in: header
+      description: Token-based authentication with required prefix "Token"
+    FluentdBasicAuth:
+      type: http
+      scheme: basic
+      description: >
+        Fluentd basic auth.
 
 paths:
+  /auth/token:
+    get:
+      summary: Get a token
+      description: >
+        Get a token for authentication.
+      operationId: GetToken
+      parameters:
+        - in: query
+          name: username
+          schema:
+            type: string
+          required: true
+          description: Username (logbeam_USER)
+        - in: query
+          name: password
+          schema:
+            type: string
+          required: true
+          description: Password (logbeam_PASSWORD)
+      responses:
+        200:
+          description: AuthToken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+        403:
+          $ref: '#/components/responses/Forbidden'
+        400:
+          $ref: '#/components/responses/BadRequest'
+
   /input/fluentd:
     post:
-      operationId: "fluentdInput"
+      operationId: "FluentdInput"
       summary: Fluentd input.
+      security:
+        -  FluentdBasicAuth: []
+      parameters:
+        - name: write_token
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Write token.
       responses:
         "200":
           description: "OK"
-        "401":
-          description: "Not Authorized"
-        "403":
-          description: "Forbidden"
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
 
   /log/range:
     post:
       operationId: "postRange"
       summary: Post range query.
+      security:
+        -  BearerAuth: []
       requestBody:
         content:
           application/json:
@@ -65,13 +140,13 @@ paths:
                   type: string
                 service:
                   type: string
-                startTime:
+                start_time:
                   type: string
                   format: date-time
-                endTime:
+                end_time:
                   type: string
                   format: date-time
-                displayFields:
+                display_fields:
                   type: array
                   uniqueItems: true
                   items:
@@ -95,10 +170,11 @@ paths:
                         description: Defaults to false. If true, matching records will be excluded from result.
       parameters:
         - in: query
-          name: readToken
+          name: read_token
+          required: true
           schema:
             type: string
-          description: LOGDIP_READ_TOKEN that was set in env var.
+          description: logbeam_READ_TOKEN that was set in env var.
         - in: query
           name: regex
           schema:
@@ -112,7 +188,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  queryID:
+                  query_id:
                     type: integer
                     format: int64
                   msg:
@@ -123,6 +199,38 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      operationId: "getRange"
+      summary: Get status and result of range query.
+      security:
+        -  BearerAuth: []
+      parameters:
+        - in: query
+          required: true
+          name: qid
+          schema:
+            type: string
+          description: Query ID.
+      responses:
+        '200':
+          description: OK
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
         default:
           description: Unexpected error
           content:

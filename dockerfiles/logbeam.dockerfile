@@ -23,7 +23,7 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     "${USER}"
-WORKDIR $GOPATH/src/mypackage/logdip/
+WORKDIR $GOPATH/src/mypackage/logbeam/
 
 COPY go.mod go.sum ./
 
@@ -38,7 +38,7 @@ RUN --mount=type=cache,target=/root/.cache/go-build --mount=type=cache,target=/g
     GOCACHE=/root/.cache/go-build GOMODCACHE=/go/pkg/mod \
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOGC=off go build \
     -ldflags='-w -s -extldflags "-static"' -a \
-    -o /go/bin/app ./cmd/logdip/.
+    -o /go/bin/app ./cmd/logbeam/.
 
 ############################
 # STEP 2 build a small image

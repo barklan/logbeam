@@ -30,16 +30,16 @@ up() {
     reflex -c reflex.conf --decoration=fancy
 }
 
-up:logdip() {
+up:logbeam() {
     _use_env
-    go run ./cmd/logdip "${@}"
+    go run ./cmd/logbeam "${@}"
 }
 
-build:logdip() {
+build:logbeam() {
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GOGC=off go build \
-    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logdip/logdip ./cmd/logdip/.
+    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logbeam/logbeam ./cmd/logbeam/.
     CGO_ENABLED=0 GOOS=windows GOARCH=amd64 GOGC=off go build \
-    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logdip/logdip.exe ./cmd/logdip/.
+    -ldflags='-w -s -extldflags "-static"' -a -o ./.cache/logbeam/logbeam.exe ./cmd/logbeam/.
 }
 
 up:compose() {
@@ -72,7 +72,7 @@ up:docs() {
 docs:gen() {
     docker run --user 1000:1000 --rm -v "$(pwd)"/docs:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
     docker run --rm -it --ulimit nofile=122880:122880 -m 3G \
-    -v "${PWD}"/docs:/docs -w /docs swaggerapi/swagger-codegen-cli-v3 generate -i https://raw.githubusercontent.com/barklan/logdip/main/docs/openapi.yml -l go -o ./go
+    -v "$(pwd)"/docs:/docs -w /docs swaggerapi/swagger-codegen-cli-v3 generate -i bundle.json -l go -o ./go
 }
 
 # -----------------------------------------------------------------------------

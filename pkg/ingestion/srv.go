@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/barklan/logdip/pkg/logdip/config"
+	"github.com/barklan/logbeam/pkg/logbeam/config"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
@@ -42,7 +42,7 @@ func (c *PublicCtrl) Serve() error {
 	r.Use(middleware.Logger)
 	r.Use(render.SetContentType(render.ContentTypeJSON))
 	r.Use(AllowCors)
-	r.Route("/api/logdip", func(r chi.Router) {
+	r.Route("/api/logbeam", func(r chi.Router) {
 		r.Route("/test", func(r chi.Router) {
 			r.Get("/hello", func(w http.ResponseWriter, r *http.Request) {
 				c.helloHandler(w, r)
@@ -50,7 +50,7 @@ func (c *PublicCtrl) Serve() error {
 		})
 	})
 
-	c.log.Info("logdip rest server is listening", zap.Int64("port", port))
+	c.log.Info("logbeam rest server is listening", zap.Int64("port", port))
 
 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), r); err != nil {
 		return fmt.Errorf("failed to listen and serve: %w", err)

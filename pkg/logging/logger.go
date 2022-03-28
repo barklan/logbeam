@@ -4,7 +4,7 @@ package logging
 import (
 	"fmt"
 
-	"github.com/barklan/logdip/pkg/system"
+	"github.com/barklan/logbeam/pkg/system"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

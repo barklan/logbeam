@@ -1,4 +1,4 @@
-module github.com/barklan/logdip
+module github.com/barklan/logbeam
 
 go 1.18
 

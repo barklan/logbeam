@@ -16,15 +16,15 @@
 			"isBackground": true,
 		},
 		{
-			"label": "r/up:logdip",
+			"label": "r/up:logbeam",
 			"type": "shell",
-			"command": "bash -i run.sh up:logdip",
+			"command": "bash -i run.sh up:logbeam",
 			"isBackground": true,
 		},
 		{
-			"label": "r/build:logdip",
+			"label": "r/build:logbeam",
 			"type": "shell",
-			"command": "bash -i run.sh build:logdip",
+			"command": "bash -i run.sh build:logbeam",
 		},
 		{
 			"label": "r/up:compose",

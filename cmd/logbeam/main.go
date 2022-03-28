@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/barklan/logdip/pkg/ingestion"
-	"github.com/barklan/logdip/pkg/logdip/config"
-	"github.com/barklan/logdip/pkg/logging"
-	"github.com/barklan/logdip/pkg/system"
+	"github.com/barklan/logbeam/pkg/ingestion"
+	"github.com/barklan/logbeam/pkg/logbeam/config"
+	"github.com/barklan/logbeam/pkg/logging"
+	"github.com/barklan/logbeam/pkg/system"
 	_ "go.uber.org/automaxprocs"
 	"golang.org/x/sync/errgroup"
 )
 
 func main() {
-	log.Println("starting logdip")
+	log.Println("starting logbeam")
 	go system.HandleSignals()
 
 	cfg, err := config.Read()

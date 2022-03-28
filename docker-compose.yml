@@ -1,11 +1,11 @@
 version: "3.9"
 
 services:
-  logdip:
-    image: '${DOCKER_IMAGE_PREFIX?Variable not set}logdip:rolling'
+  logbeam:
+    image: '${DOCKER_IMAGE_PREFIX?Variable not set}logbeam:rolling'
     build:
       context: .
-      dockerfile: dockerfiles/logdip.dockerfile
+      dockerfile: dockerfiles/logbeam.dockerfile
       args:
         DOCKER_IMAGE_PREFIX: ${DOCKER_IMAGE_PREFIX?Variable not set}
         BUILDKIT_INLINE_CACHE: 1
