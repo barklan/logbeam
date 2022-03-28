@@ -63,10 +63,16 @@ env:prod() {
     ENV_FOR=prod bash ./scripts/build_env.sh
 }
 
-docs:dev() {
+up:docs() {
     docker run -it --rm -p 8080:80 \
     -v "$(pwd)"/docs:/usr/share/nginx/html/swagger/ \
     -e SPEC_URL=swagger/openapi.yml redocly/redoc
+}
+
+docs:gen() {
+    docker run --user 1000:1000 --rm -v "$(pwd)"/docs:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
+    docker run --rm -it --ulimit nofile=122880:122880 -m 3G \
+    -v "${PWD}"/docs:/docs -w /docs swaggerapi/swagger-codegen-cli-v3 generate -i https://raw.githubusercontent.com/barklan/logdip/main/docs/openapi.yml -l go -o ./go
 }
 
 # -----------------------------------------------------------------------------

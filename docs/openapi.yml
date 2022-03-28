@@ -8,9 +8,38 @@ info:
   title: LogDip API
   version: "0.0.1"
 servers:
-  - url: https://localhost:9010/api
+  - url: http://localhost:9010/api
+
+components:
+  responses:
+      Unauthorized:
+        description: Unauthorized
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      Forbidden:
+        description: Forbidden
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+      BadRequest:
+        description: Bad Request
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        msg:
+          type: string
+
 paths:
-  /loginput/fluentd:
+  /input/fluentd:
     post:
       operationId: "fluentdInput"
       summary: Fluentd input.
@@ -21,3 +50,82 @@ paths:
           description: "Not Authorized"
         "403":
           description: "Forbidden"
+
+  /log/range:
+    post:
+      operationId: "postRange"
+      summary: Post range query.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hostname:
+                  type: string
+                service:
+                  type: string
+                startTime:
+                  type: string
+                  format: date-time
+                endTime:
+                  type: string
+                  format: date-time
+                displayFields:
+                  type: array
+                  uniqueItems: true
+                  items:
+                    type: string
+                  description: Fields in log records that should be included in result.
+                filters:
+                  description: Rules to filter log records.
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - field
+                      - regex
+                    properties:
+                      field:
+                        type: string
+                      regex:
+                        type: string
+                      negate:
+                        type: boolean
+                        description: Defaults to false. If true, matching records will be excluded from result.
+      parameters:
+        - in: query
+          name: readToken
+          schema:
+            type: string
+          description: LOGDIP_READ_TOKEN that was set in env var.
+        - in: query
+          name: regex
+          schema:
+            type: string
+          description: Regex request to filter one field.
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queryID:
+                    type: integer
+                    format: int64
+                  msg:
+                    type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

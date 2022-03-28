@@ -53,9 +53,15 @@
 			"command": "bash -i run.sh env:prod",
 		},
 		{
-			"label": "r/docs:dev",
+			"label": "r/up:docs",
 			"type": "shell",
-			"command": "bash -i run.sh docs:dev",
+			"command": "bash -i run.sh up:docs",
+			"isBackground": true,
+		},
+		{
+			"label": "r/docs:gen",
+			"type": "shell",
+			"command": "bash -i run.sh docs:gen",
 		},
     ],
 }
