@@ -1,9 +1,10 @@
-package config
+package config_test
 
 import (
 	"os"
 	"testing"
 
+	"github.com/barklan/logbeam/pkg/logbeam/config"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/goleak"
 )
@@ -17,17 +18,17 @@ func TestRead(t *testing.T) {
 	tests := []struct {
 		name    string
 		envVars map[string]string
-		want    *Config
+		want    *config.Config
 		wantErr bool
 	}{
 		{
 			"test env var",
 			map[string]string{
-				"LOGBEAM_USER":            "bobik",
-				"LOGBEAM_PASSWORD":        "secret",
+				"LOGBEAM_USER":            "bobik",  // pragma: allowlist secret
+				"LOGBEAM_PASSWORD":        "secret", // pragma: allowlist secret
 				"LOGBEAM_RETENTION_HOURS": "6",
-			}, // pragma: allowlist secret
-			&Config{
+			},
+			&config.Config{
 				Username:       "bobik",
 				Password:       "secret",
 				RetentionHours: 6,
@@ -37,12 +38,24 @@ func TestRead(t *testing.T) {
 		{
 			"default env vars",
 			map[string]string{},
-			&Config{
+			&config.Config{
 				Username:       "logbeam",
 				Password:       "logbeam",
 				RetentionHours: 48,
 			},
 			false,
+		},
+		{
+			"negative retention hours should cause error",
+			map[string]string{
+				"LOGBEAM_RETENTION_HOURS": "-6",
+			},
+			&config.Config{
+				Username:       "logbeam",
+				Password:       "logbeam",
+				RetentionHours: 48,
+			},
+			true,
 		},
 	}
 	for _, tt := range tests { // nolint:paralleltest
@@ -53,13 +66,13 @@ func TestRead(t *testing.T) {
 					t.Fatalf("failed to set env var: %v", err)
 				}
 			}
-			got, err := Read()
+			got, err := config.Read()
 			if tt.wantErr {
 				assert.Error(t, err)
 			} else {
 				assert.NoError(t, err)
+				assert.Equal(t, got, tt.want)
 			}
-			assert.Equal(t, got, tt.want)
 			for k := range tt.envVars {
 				if err := os.Unsetenv(k); err != nil {
 					t.Fatalf("failed to unset env var: %v", err)
