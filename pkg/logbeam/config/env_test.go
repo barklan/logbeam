@@ -2,9 +2,9 @@ package config
 
 import (
 	"os"
-	"reflect"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
 	"go.uber.org/goleak"
 )
 
@@ -22,28 +22,48 @@ func TestRead(t *testing.T) {
 	}{
 		{
 			"test env var",
-			map[string]string{"MYAPP_SECRET": "supersecretkey"}, // pragma: allowlist secret
-			&Config{Secret: "supersecretkey"},                   // pragma: allowlist secret
+			map[string]string{
+				"LOGBEAM_USER":            "bobik",
+				"LOGBEAM_PASSWORD":        "secret",
+				"LOGBEAM_RETENTION_HOURS": "6",
+			}, // pragma: allowlist secret
+			&Config{
+				Username:       "bobik",
+				Password:       "secret",
+				RetentionHours: 6,
+			}, // pragma: allowlist secret
+			false,
+		},
+		{
+			"default env vars",
+			map[string]string{},
+			&Config{
+				Username:       "logbeam",
+				Password:       "logbeam",
+				RetentionHours: 48,
+			},
 			false,
 		},
 	}
-	for _, tt := range tests {
+	for _, tt := range tests { // nolint:paralleltest
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			t.Parallel()
 			for k, v := range tt.envVars {
 				if err := os.Setenv(k, v); err != nil {
 					t.Fatalf("failed to set env var: %v", err)
 				}
 			}
 			got, err := Read()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Read() error = %v, wantErr %v", err, tt.wantErr)
-
-				return
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("Read() = %v, want %v", got, tt.want)
+			assert.Equal(t, got, tt.want)
+			for k := range tt.envVars {
+				if err := os.Unsetenv(k); err != nil {
+					t.Fatalf("failed to unset env var: %v", err)
+				}
 			}
 		})
 	}
