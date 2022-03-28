@@ -1,0 +1,14 @@
+LogRecord:
+  $ref: "./log_record.yml"
+
+Error:
+  $ref: "./error.yml"
+
+LogRangeRequest:
+  $ref: "./log_range_request.yml"
+
+LogRangeResult:
+  $ref: "./log_range_result.yml"
+
+AuthToken:
+  $ref: "./auth_token.yml"

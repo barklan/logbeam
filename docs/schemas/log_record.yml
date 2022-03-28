@@ -1,0 +1,19 @@
+type: object
+additionalProperties: true
+required:
+  - timestamp
+  - hostname
+  - service
+properties:
+  timestamp:
+    type: string
+    format: date-time
+  hostname:
+    type: string
+  service:
+    type: string
+  level:
+    type: string
+    description: >
+      Log level. One of: debug, info, warning, error, critical.
+      If not specified, or if the value is not one of the above, info level is assumed.

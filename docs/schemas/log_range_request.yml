@@ -1,0 +1,48 @@
+type: object
+required:
+  - hostname
+  - service
+properties:
+  hostname:
+    type: string
+  service:
+    type: string
+  level:
+    type: string
+    enum:
+      - debug
+      - info
+      - warning
+      - error
+      - critical
+    description: If not specified `info` level is set.
+  start_time:
+    type: string
+    format: date-time
+    description: if not specified, `start_time` is set to now - 1 hour
+  end_time:
+    type: string
+    format: date-time
+    description: if not specified, `end_time` is set to now
+  display_fields:
+    type: array
+    uniqueItems: true
+    items:
+      type: string
+    description: Fields in log records that should be included in result. If not specified, all fields are included.
+  filters:
+    description: Rules to filter log records. If not specified, no filtering is applied.
+    type: array
+    items:
+      type: object
+      required:
+        - field
+        - regex
+      properties:
+        field:
+          type: string
+        regex:
+          type: string
+        negate:
+          type: boolean
+          description: Defaults to false. If true, matching records will be excluded from result.

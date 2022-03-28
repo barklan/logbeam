@@ -1,0 +1,11 @@
+type: object
+properties:
+  records:
+    type: array
+    items:
+      $ref: './log_record.yml'
+  num_records:
+    type: integer
+    format: int64
+  overflow:
+    type: boolean

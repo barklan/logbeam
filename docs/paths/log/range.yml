@@ -1,0 +1,71 @@
+post:
+  operationId: "postRange"
+  summary: Post range query.
+  security:
+    - BearerAuth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/log_range_request.yml'
+  responses:
+    "200":
+      description: "OK"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              query_id:
+                type: integer
+                format: int64
+              msg:
+                type: string
+    "400":
+      $ref: "../../openapi.yml#/components/responses/BadRequest"
+    "401":
+      $ref: "../../openapi.yml#/components/responses/Unauthorized"
+    "403":
+      $ref: "../../openapi.yml#/components/responses/Forbidden"
+    "404":
+      $ref: "../../openapi.yml#/components/responses/NotFound"
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yml#/components/schemas/Error"
+
+get:
+  operationId: "getRange"
+  summary: Get status and result of range query.
+  security:
+    - BearerAuth: []
+  parameters:
+    - in: query
+      required: true
+      name: queryID
+      schema:
+        type: string
+      description: Query ID.
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/log_range_result.yml"
+    "400":
+      $ref: "../../openapi.yml#/components/responses/BadRequest"
+    "401":
+      $ref: "../../openapi.yml#/components/responses/Unauthorized"
+    "403":
+      $ref: "../../openapi.yml#/components/responses/Forbidden"
+    "404":
+      $ref: "../../openapi.yml#/components/responses/NotFound"
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yml#/components/schemas/Error"

@@ -1,0 +1,4 @@
+type: object
+properties:
+  acess_token:
+    type: string

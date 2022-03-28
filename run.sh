@@ -65,7 +65,7 @@ env:prod() {
 
 up:docs() {
     docker run -it --rm -p 8080:80 \
-    -v "$(pwd)"/docs:/usr/share/nginx/html/swagger/ \
+    -v "$(pwd)"/docs/:/usr/share/nginx/html/swagger/ \
     -e SPEC_URL=swagger/openapi.yml redocly/redoc
 }
 

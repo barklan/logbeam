@@ -1,0 +1,29 @@
+get:
+    summary: Get a token
+    description: >
+      Get a token for authentication.
+    operationId: GetToken
+    parameters:
+      - in: query
+        name: username
+        schema:
+          type: string
+        required: true
+        description: Username (LOGBEAM_USER)
+      - in: query
+        name: password
+        schema:
+          type: string
+        required: true
+        description: Password (LOGBEAM_PASSWORD)
+    responses:
+      200:
+        description: AuthToken
+        content:
+          application/json:
+            schema:
+              $ref: '../../openapi.yml#/components/schemas/AuthToken'
+      403:
+        $ref: '../../openapi.yml#/components/responses/Forbidden'
+      400:
+        $ref: '../../openapi.yml#/components/responses/BadRequest'

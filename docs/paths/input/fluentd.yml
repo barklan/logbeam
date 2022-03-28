@@ -1,0 +1,23 @@
+post:
+  operationId: "FluentdInput"
+  summary: Fluentd input.
+  security:
+    - FluentdBasicAuth: []
+  parameters:
+    - name: write_token
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Write token.
+  responses:
+    "200":
+      description: "OK"
+    "400":
+      $ref: "../../openapi.yml#/components/responses/BadRequest"
+    "401":
+      $ref: "../../openapi.yml#/components/responses/Unauthorized"
+    "403":
+      $ref: "../../openapi.yml#/components/responses/Forbidden"
+    "500":
+      $ref: "../../openapi.yml#/components/responses/InternalServerError"
