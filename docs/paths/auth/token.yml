@@ -23,7 +23,9 @@ get:
           application/json:
             schema:
               $ref: '../../openapi.yml#/components/schemas/AuthToken'
-      403:
-        $ref: '../../openapi.yml#/components/responses/Forbidden'
+      404:
+        $ref: '../../openapi.yml#/components/responses/NotFound'
       400:
         $ref: '../../openapi.yml#/components/responses/BadRequest'
+      500:
+        $ref: '../../openapi.yml#/components/responses/InternalServerError'
