@@ -13,7 +13,7 @@ func TestMain(m *testing.M) {
 	goleak.VerifyTestMain(m)
 }
 
-func TestRead(t *testing.T) {
+func TestRead(t *testing.T) { //nolint:funlen
 	t.Parallel()
 	tests := []struct {
 		name    string
@@ -29,18 +29,18 @@ func TestRead(t *testing.T) {
 				"LOGBEAM_RETENTION_HOURS": "6",
 			},
 			&config.Config{
-				Username:       "bobik",
-				Password:       "secret",
+				Username:       "bobik",  // pragma: allowlist secret
+				Password:       "secret", // pragma: allowlist secret
 				RetentionHours: 6,
-			}, // pragma: allowlist secret
+			},
 			false,
 		},
 		{
 			"default env vars",
 			map[string]string{},
 			&config.Config{
-				Username:       "logbeam",
-				Password:       "logbeam",
+				Username:       "logbeam", // pragma: allowlist secret
+				Password:       "logbeam", // pragma: allowlist secret
 				RetentionHours: 48,
 			},
 			false,
@@ -51,8 +51,8 @@ func TestRead(t *testing.T) {
 				"LOGBEAM_RETENTION_HOURS": "-6",
 			},
 			&config.Config{
-				Username:       "logbeam",
-				Password:       "logbeam",
+				Username:       "logbeam", // pragma: allowlist secret
+				Password:       "logbeam", // pragma: allowlist secret
 				RetentionHours: 48,
 			},
 			true,

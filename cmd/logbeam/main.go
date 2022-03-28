@@ -1,10 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
-	"github.com/barklan/logbeam/pkg/ingestion"
 	"github.com/barklan/logbeam/pkg/logbeam/config"
 	"github.com/barklan/logbeam/pkg/logging"
 	"github.com/barklan/logbeam/pkg/system"
@@ -16,7 +14,7 @@ func main() {
 	log.Println("starting logbeam")
 	go system.HandleSignals()
 
-	cfg, err := config.Read()
+	_, err := config.Read()
 	if err != nil {
 		log.Fatalf("failed to read config: %v\n", err)
 	}
@@ -27,14 +25,14 @@ func main() {
 	}
 
 	g := new(errgroup.Group)
-	ingestCtrl := ingestion.NewCtrl(lg, cfg)
-	g.Go(func() error {
-		if err := ingestCtrl.Serve(); err != nil {
-			return fmt.Errorf("failed to serve ingestion service: %w", err)
-		}
+	// ingestCtrl := ingestion.NewCtrl(lg, cfg)
+	// g.Go(func() error {
+	// 	if err := ingestCtrl.Serve(); err != nil {
+	// 		return fmt.Errorf("failed to serve ingestion service: %w", err)
+	// 	}
 
-		return nil
-	})
+	// 	return nil
+	// })
 
 	if err := g.Wait(); err == nil {
 		lg.Info("main exited")
