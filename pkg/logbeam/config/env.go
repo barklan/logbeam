@@ -11,6 +11,7 @@ const prefix = "LOGBEAM_"
 type Config struct {
 	Username       string `env:"USER" envDefault:"logbeam"`
 	Password       string `env:"PASSWORD" envDefault:"logbeam"`
+	Secret         string `env:"SECRET" envDefault:"logbeam"`
 	RetentionHours uint64 `env:"RETENTION_HOURS" envDefault:"48"`
 }
 

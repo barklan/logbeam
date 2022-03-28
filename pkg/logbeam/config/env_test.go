@@ -24,13 +24,15 @@ func TestRead(t *testing.T) { //nolint:funlen
 		{
 			"test env var",
 			map[string]string{
-				"LOGBEAM_USER":            "bobik",  // pragma: allowlist secret
-				"LOGBEAM_PASSWORD":        "secret", // pragma: allowlist secret
+				"LOGBEAM_USER":            "bobik",
+				"LOGBEAM_PASSWORD":        "secret",
+				"LOGBEAM_SECRET":          "boom",
 				"LOGBEAM_RETENTION_HOURS": "6",
 			},
 			&config.Config{
-				Username:       "bobik",  // pragma: allowlist secret
-				Password:       "secret", // pragma: allowlist secret
+				Username:       "bobik",
+				Password:       "secret",
+				Secret:         "boom",
 				RetentionHours: 6,
 			},
 			false,
@@ -39,8 +41,9 @@ func TestRead(t *testing.T) { //nolint:funlen
 			"default env vars",
 			map[string]string{},
 			&config.Config{
-				Username:       "logbeam", // pragma: allowlist secret
-				Password:       "logbeam", // pragma: allowlist secret
+				Username:       "logbeam",
+				Password:       "logbeam",
+				Secret:         "logbeam",
 				RetentionHours: 48,
 			},
 			false,
@@ -50,11 +53,7 @@ func TestRead(t *testing.T) { //nolint:funlen
 			map[string]string{
 				"LOGBEAM_RETENTION_HOURS": "-6",
 			},
-			&config.Config{
-				Username:       "logbeam", // pragma: allowlist secret
-				Password:       "logbeam", // pragma: allowlist secret
-				RetentionHours: 48,
-			},
+			&config.Config{},
 			true,
 		},
 	}

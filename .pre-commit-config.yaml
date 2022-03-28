@@ -32,10 +32,10 @@ repos:
     hooks:
       - id: codespell
         exclude: "^go.sum"
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.2.0
-    hooks:
-      - id: detect-secrets
+  # - repo: https://github.com/Yelp/detect-secrets
+  #   rev: v1.2.0
+  #   hooks:
+  #     - id: detect-secrets
   - repo: https://github.com/zricethezav/gitleaks
     rev: v8.5.1
     hooks:

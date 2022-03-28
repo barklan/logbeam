@@ -1,4 +1,4 @@
 type: object
 properties:
-  acess_token:
+  access_token:
     type: string
