@@ -36,7 +36,7 @@ func (c *Controller) getAuthToken(w http.ResponseWriter, r *http.Request) {
 	}
 	token, err := security.CreateJWT(username, c.conf.Secret, 48*time.Hour)
 	if err != nil {
-		c.internalError(w, r, "Failed to create token. Please report bug.", err)
+		c.internalError(w, r, "Failed to create token. Please open an issue.", err)
 
 		return
 	}
