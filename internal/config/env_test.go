@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/barklan/logbeam/pkg/logbeam/config"
+	"github.com/barklan/logbeam/internal/config"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/goleak"
 )

@@ -3,7 +3,7 @@ package api
 import (
 	"net/http"
 
-	"github.com/barklan/logbeam/pkg/logbeam/config"
+	"github.com/barklan/logbeam/internal/config"
 	"github.com/go-chi/render"
 	"go.uber.org/zap"
 )

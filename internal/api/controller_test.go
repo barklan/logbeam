@@ -3,7 +3,7 @@ package api
 import (
 	"testing"
 
-	"github.com/barklan/logbeam/pkg/logbeam/config"
+	"github.com/barklan/logbeam/internal/config"
 	"github.com/barklan/logbeam/pkg/logging"
 	"github.com/stretchr/testify/assert"
 )
