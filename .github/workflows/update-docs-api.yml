@@ -1,0 +1,35 @@
+name: update-docs-api
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:17
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: build
+        run: |
+          bash run.sh docs:gen
+      - name: Create SSH key
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_PRIVATE_KEY" > ../private.key
+          chmod 600 ../private.key
+          echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        shell: bash
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+          # SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+      - name: Push
+        run: scp -i $SSH_KEY_PATH -o "StrictHostKeyChecking=no" docs/api/bundle.json ubuntu@51.250.99.0:/home/ubuntu/docs/api
+        env:
+          SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
+          SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
+          SSH_KEY_PATH: ${{ github.workspace }}/../private.key

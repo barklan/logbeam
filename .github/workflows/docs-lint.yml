@@ -16,10 +16,10 @@ jobs:
 
       - name: Lint Schema
         run: |
-          if ls docs/openapi.yml
+          if ls docs/api/openapi.yml
           then
             echo "openapi schema found"
-            npx @redocly/openapi-cli lint docs/openapi.yml
+            npx @redocly/openapi-cli lint docs/api/openapi.yml
           else
             echo "No openapi schema found!"
           fi

@@ -70,9 +70,9 @@ up:docs() {
 }
 
 docs:gen() {
-    docker run --user 1000:1000 --rm -v "$(pwd)"/docs:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
-    docker run --rm -it --ulimit nofile=122880:122880 -m 3G \
-    -v "$(pwd)"/docs:/docs -w /docs swaggerapi/swagger-codegen-cli-v3 generate -i bundle.json -l go -o ./go
+    # docker run --user 1000:1000 --rm -v "$(pwd)"/docs/api:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
+    cd docs/api
+    npx @redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
 }
 
 # -----------------------------------------------------------------------------
