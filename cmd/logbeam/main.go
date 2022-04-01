@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/barklan/logbeam/pkg/logbeam/config"
+	"github.com/barklan/logbeam/internal/config"
 	"github.com/barklan/logbeam/pkg/logging"
 	"github.com/barklan/logbeam/pkg/system"
 	_ "go.uber.org/automaxprocs"
