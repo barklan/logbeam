@@ -26,9 +26,12 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
-          # SSH_KEY_PATH: ${{ github.workspace }}/../private.key
+          SSH_KEY_PATH: ${{ github.workspace }}/../private.key
       - name: Push
-        run: scp -i $SSH_KEY_PATH -o "StrictHostKeyChecking=no" docs/api/bundle.json ubuntu@51.250.99.0:/home/ubuntu/docs/api
+        run: |
+          ssh -i $SSH_KEY_PATH -o "StrictHostKeyChecking=no" ubuntu@51.250.29.216 "mkdir -p /home/ubuntu/static/logbeam/docs/api"
+          scp -i $SSH_KEY_PATH -o "StrictHostKeyChecking=no" docs/api/bundle.json ubuntu@51.250.29.216:/home/ubuntu/static/logbeam/docs/api
+          scp -i $SSH_KEY_PATH -o "StrictHostKeyChecking=no" docs/api/index.html ubuntu@51.250.29.216:/home/ubuntu/static/logbeam/docs/api
         env:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
