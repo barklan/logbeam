@@ -4,8 +4,9 @@ import (
 	"net/http"
 
 	"github.com/barklan/logbeam/internal/config"
-	"github.com/go-chi/render"
 	"go.uber.org/zap"
+
+	"github.com/go-chi/render"
 )
 
 type Controller struct {
@@ -40,31 +41,9 @@ func (c *Controller) internalError(w http.ResponseWriter, r *http.Request, msg s
 	c.errorResp(w, r, msg, http.StatusInternalServerError)
 }
 
-// func AllowCors(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		w.Header().Set("Access-Control-Allow-Origin", "*")
-// 		next.ServeHTTP(w, r)
-// 	})
-// }
-
-// func (c *Controller) Serve() error {
-// 	r := chi.NewRouter()
-// 	r.Use(middleware.Logger)
-// 	r.Use(render.SetContentType(render.ContentTypeJSON))
-// 	// r.Use(AllowCors)
-// 	r.Route("/api", func(r chi.Router) {
-// 		r.Route("/test", func(r chi.Router) {
-// 			r.Get("/hello", func(w http.ResponseWriter, r *http.Request) {
-// 				c.helloHandler(w, r)
-// 			})
-// 		})
-// 	})
-
-// 	c.log.Info("logbeam rest server is listening", zap.Int64("port", port))
-
-// 	if err := http.ListenAndServe(fmt.Sprintf(":%d", port), r); err != nil {
-// 		return fmt.Errorf("failed to listen and serve: %w", err)
-// 	}
-
-// 	return nil
-// }
+func AllowCors(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		next.ServeHTTP(w, r)
+	})
+}

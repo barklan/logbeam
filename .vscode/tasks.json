@@ -63,5 +63,10 @@
 			"type": "shell",
 			"command": "bash -i run.sh docs:gen",
 		},
+		{
+			"label": "r/docs:publish",
+			"type": "shell",
+			"command": "bash -i run.sh docs:publish",
+		},
     ],
 }

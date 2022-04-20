@@ -1,0 +1,26 @@
+baseURL: 'https://logbeam.barklan.com/'
+languageCode: en-us
+title: "LogBeam"
+menu:
+  main:
+    - name: home
+      url: /
+      weight: 1
+    - name: api
+      url: https://logbeamapi.barklan.com
+      weight: 2
+
+params:
+  description: "LogBeam documentation"
+
+markup:
+  highlight:
+    codeFences: true
+    style: bw
+  goldmark:
+    renderer:
+      unsafe: true
+
+module:
+  imports:
+    - path: github.com/barklan/hugo-dead-simple

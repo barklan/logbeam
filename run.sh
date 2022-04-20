@@ -69,10 +69,13 @@ up:docs() {
     -e SPEC_URL=swagger/openapi.yml redocly/redoc
 }
 
-docs:gen() {
-    # docker run --user 1000:1000 --rm -v "$(pwd)"/docs/api:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
-    cd docs/api
-    npx @redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
+docs:publish() {
+    docker run --rm -v "$(pwd)"/docs/api:/spec redocly/openapi-cli bundle -o bundle.json --ext json openapi.yml
+    rsync -azvcm --delete --include='*/' --include='*.html' --include='*.json' --exclude='*' docs/api/ barklan:static/logbeamapi
+
+    cd docs
+    hugo --gc --minify
+    rsync -azvc --delete public/ barklan:static/logbeam
 }
 
 # -----------------------------------------------------------------------------

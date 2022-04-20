@@ -1,6 +1,6 @@
 openapi: "3.1.0"
 info:
-  description: API for logbeam
+  description: API for LogBeam. Docs are [here](https://logbeam.barklan.com/).
   license:
     name: MIT
     identifier: MIT

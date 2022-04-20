@@ -3,13 +3,6 @@ post:
   summary: Fluentd input.
   security:
     - FluentdBasicAuth: []
-  parameters:
-    - name: write_token
-      in: query
-      required: true
-      schema:
-        type: string
-      description: Write token.
   responses:
     "200":
       description: "OK"
