@@ -16,33 +16,46 @@ properties:
       - error
       - critical
     description: If not specified `info` level is set.
-  start_time:
+  startTime:
     type: string
     format: date-time
-    description: if not specified, `start_time` is set to now - 1 hour
-  end_time:
+    description: if not specified, `startTime` is set to now - 1 hour
+  endTime:
     type: string
     format: date-time
-    description: if not specified, `end_time` is set to now
-  display_fields:
+    description: if not specified, `endTime` is set to now
+  chronological:
+    type: boolean
+    description: |
+      Default is `false`. If `true`, records are in chronological order.
+      If `false` newer records are first. For now it's always `false`.
+  displayFields:
     type: array
     uniqueItems: true
     items:
       type: string
-    description: Fields in log records that should be included in result. If not specified, all fields are included.
+    description: |
+      Fields in log records that should be included in result.
+      If not specified, all fields are included.
   filters:
-    description: Rules to filter log records. If not specified, no filtering is applied.
+    description: |
+      Rules to filter log records. If not specified, no filtering is applied.
+      For now no rules are supported.
     type: array
     items:
       type: object
       required:
         - field
-        - regex
+        - rule
+        - value
       properties:
         field:
           type: string
-        regex:
+        rule:
+          type: string
+        value:
           type: string
         negate:
           type: boolean
-          description: Defaults to false. If true, matching records will be excluded from result.
+          description: |
+            Defaults to false. If true, matching records will be excluded from result.

@@ -1,0 +1,33 @@
+post:
+  operationId: "updateMeta"
+  summary: Update meta data.
+  security:
+    - BearerAuth: []
+  responses:
+    "200":
+      description: "OK"
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yml#/components/schemas/Error"
+
+get:
+  operationId: "getMeta"
+  summary: Get meta data.
+  security:
+    - BearerAuth: []
+  responses:
+    "200":
+      description: "OK"
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yml#/components/schemas/LogMetaData"
+    default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "../../openapi.yml#/components/schemas/Error"

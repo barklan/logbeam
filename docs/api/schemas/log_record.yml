@@ -1,11 +1,11 @@
 type: object
 additionalProperties: true
 required:
-  - timestamp
+  - createTime
   - hostname
   - service
 properties:
-  timestamp:
+  createTime:
     type: string
     format: date-time
   hostname:

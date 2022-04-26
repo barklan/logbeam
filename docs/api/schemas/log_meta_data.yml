@@ -1,0 +1,14 @@
+type: object
+properties:
+  value:
+    type: object
+    properties:
+      hostServicePairs:
+        type: array
+        items:
+          type: object
+          properties:
+            hostname:
+              type: string
+            service:
+              type: string

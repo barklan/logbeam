@@ -4,7 +4,7 @@ properties:
     type: array
     items:
       $ref: './log_record.yml'
-  num_records:
+  number:
     type: integer
     format: int64
   overflow:

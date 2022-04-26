@@ -1,12 +1,12 @@
 openapi: "3.1.0"
 info:
-  description: API for LogBeam. Docs are [here](https://logbeam.barklan.com/).
+  description: API for LogBeam.
   license:
     name: MIT
     identifier: MIT
     url: LICENSE
   title: LogBeam API
-  version: "0.0.2"
+  version: "1.0.0"
 servers:
   - url: http://localhost:9010/api
 
@@ -51,7 +51,7 @@ components:
       type: apiKey
       name: Authorization
       in: header
-      description: Token-based authentication with required prefix "Token"
+      description: Token-based authentication with required prefix "Bearer"
     FluentdBasicAuth:
       type: http
       scheme: basic
@@ -63,5 +63,7 @@ paths:
     $ref: "./paths/auth/token.yml"
   /input/fluentd:
     $ref: "./paths/input/fluentd.yml"
-  /log/range:
-    $ref: "./paths/log/range.yml"
+  /logbank/range:
+    $ref: "./paths/logbank/range.yml"
+  /logbank/meta:
+    $ref: "./paths/logbank/meta.yml"

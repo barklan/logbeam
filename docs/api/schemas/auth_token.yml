@@ -1,4 +1,9 @@
 type: object
 properties:
-  access_token:
-    type: string
+  value:
+    type: object
+    properties:
+      accessToken:
+        type: string
+    required:
+      - accessToken

@@ -10,5 +10,8 @@ LogRangeRequest:
 LogRangeResult:
   $ref: "./log_range_result.yml"
 
+LogMetaData:
+  $ref: "./log_meta_data.yml"
+
 AuthToken:
   $ref: "./auth_token.yml"
