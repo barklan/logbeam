@@ -1,11 +1,15 @@
 post:
-  operationId: "FluentdInput"
-  summary: Fluentd input.
+  operationId: "Input"
+  summary: Generic input.
   security:
-    - FluentdBasicAuth: []
+    - BasicAuth: []
+  requestBody:
+    content:
+      application/x-ndjson:
+        schema:
   responses:
-    "200":
-      description: "OK"
+    "202":
+      description: "Accepted"
     "400":
       $ref: "../../openapi.yml#/components/responses/BadRequest"
     "401":

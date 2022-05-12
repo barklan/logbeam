@@ -19,24 +19,24 @@ func (a *AuthToken) Render(w http.ResponseWriter, r *http.Request) error {
 	return nil
 }
 
-func (c *Controller) getAuthToken(w http.ResponseWriter, r *http.Request) {
+func (s *Server) getAuthToken(w http.ResponseWriter, r *http.Request) {
 	username := chi.URLParam(r, "username")
 	password := chi.URLParam(r, "password")
-	c.log.Info("usernames", zap.String("conf", c.conf.Username), zap.String("query", username))
-	if c.conf.Username == username {
-		if !(subtle.ConstantTimeCompare([]byte(password), []byte(c.conf.Password)) == 1) {
-			c.errorResp(w, r, "Password is wrong.", http.StatusForbidden)
+	s.log.Info("usernames", zap.String("conf", s.conf.Username), zap.String("query", username))
+	if s.conf.Username == username {
+		if !(subtle.ConstantTimeCompare([]byte(password), []byte(s.conf.Password)) == 1) {
+			s.errorResp(w, r, "Password is wrong.", http.StatusForbidden)
 
 			return
 		}
 	} else {
-		c.errorResp(w, r, "No user found with this username.", http.StatusNotFound)
+		s.errorResp(w, r, "No user found with this username.", http.StatusNotFound)
 
 		return
 	}
-	token, err := security.CreateJWT(username, c.conf.Secret, 48*time.Hour)
+	token, err := security.CreateJWT(username, s.conf.Secret, 48*time.Hour)
 	if err != nil {
-		c.internalError(w, r, "Failed to create token. Please open an issue.", err)
+		s.internalError(w, r, "Failed to create token. Please open an issue.", err)
 
 		return
 	}

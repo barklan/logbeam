@@ -3,12 +3,12 @@ properties:
   value:
     type: object
     properties:
-      hostServicePairs:
+      hostTagPairs:
         type: array
         items:
           type: object
           properties:
             hostname:
               type: string
-            service:
+            tag:
               type: string

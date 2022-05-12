@@ -6,6 +6,7 @@ import (
 	"github.com/barklan/logbeam/internal/config"
 	"github.com/barklan/logbeam/pkg/logging"
 	"github.com/barklan/logbeam/pkg/system"
+	"github.com/minio/simdjson-go"
 	_ "go.uber.org/automaxprocs"
 	"golang.org/x/sync/errgroup"
 )
@@ -22,6 +23,10 @@ func main() {
 	lg, err := logging.NewAuto()
 	if err != nil {
 		log.Fatalf("failed to init logger: %v\n", err)
+	}
+
+	if !simdjson.SupportedCPU() {
+		log.Fatalf("unsupported CPU for simdjson\n")
 	}
 
 	g := new(errgroup.Group)

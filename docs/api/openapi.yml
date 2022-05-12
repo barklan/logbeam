@@ -52,17 +52,17 @@ components:
       name: Authorization
       in: header
       description: Token-based authentication with required prefix "Bearer"
-    FluentdBasicAuth:
+    BasicAuth:
       type: http
       scheme: basic
       description: >
-        Fluentd basic auth.
+        Basic auth.
 
 paths:
   /auth/token:
     $ref: "./paths/auth/token.yml"
-  /input/fluentd:
-    $ref: "./paths/input/fluentd.yml"
+  /input:
+    $ref: "./paths/input/generic.yml"
   /logbank/range:
     $ref: "./paths/logbank/range.yml"
   /logbank/meta:

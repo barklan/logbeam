@@ -3,27 +3,39 @@ package api
 import (
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"path/filepath"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
-func TestController_ReceiveBatch(t *testing.T) {
-	t.Parallel()
+func TestServer_input(t *testing.T) {
 	tests := []struct {
-		name       string
-		username   string
-		password   string
-		statusCode int
+		name        string
+		contentType string
+		bodyFile    string
+		statusCode  int
 	}{
-		// TODO: Add test cases.
+		{
+			"simple ndjson",
+			applicationNDJSON,
+			"simplendjson",
+			http.StatusAccepted,
+		},
 	}
 	for _, tt := range tests {
-		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			c := NewMockController(t)
+			s := NewTestServer(t)
 			rr := httptest.NewRecorder()
-			r := httptest.NewRequest(http.MethodGet, "/", nil)
-			r.SetBasicAuth(tt.username, tt.password)
-			c.ReceiveBatch(rr, r)
+			body, err := os.Open(filepath.Join("testdata", tt.bodyFile))
+			if err != nil {
+				t.Fatalf("failed to open test body\n")
+			}
+			r := httptest.NewRequest(http.MethodPost, "/", body)
+			r.SetBasicAuth("logbeam", "logbeam")
+			s.input(rr, r)
+			require.Equal(t, tt.statusCode, rr.Code)
 		})
 	}
 }

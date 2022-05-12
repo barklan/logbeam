@@ -1,21 +1,12 @@
 type: object
 required:
   - hostname
-  - service
+  - tag
 properties:
   hostname:
     type: string
-  service:
+  tag:
     type: string
-  level:
-    type: string
-    enum:
-      - debug
-      - info
-      - warning
-      - error
-      - critical
-    description: If not specified `info` level is set.
   startTime:
     type: string
     format: date-time
