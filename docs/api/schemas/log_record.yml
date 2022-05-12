@@ -1,20 +1,14 @@
 type: object
 additionalProperties: true
 required:
-  - timestamp
+  - createTime
   - hostname
-  - service
+  - tag
 properties:
-  timestamp:
+  createTime:
     type: string
     format: date-time
   hostname:
     type: string
-  service:
+  tag:
     type: string
-  level:
-    type: string
-    description: >
-      Log level. One of: debug, info, warning, error, critical.
-      If not specified, or if the value is not one of the above, info level is assumed.
-      This field will be always present in response.

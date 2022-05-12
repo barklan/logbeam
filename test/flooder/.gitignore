@@ -1,0 +1,7 @@
+.mypy_cache
+.coverage
+htmlcov
+celerybeat-schedule
+.venv
+__pycache__
+env

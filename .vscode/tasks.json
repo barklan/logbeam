@@ -59,9 +59,26 @@
 			"isBackground": true,
 		},
 		{
-			"label": "r/docs:gen",
+			"label": "r/up:docs:reflex",
 			"type": "shell",
-			"command": "bash -i run.sh docs:gen",
+			"command": "bash -i run.sh up:docs:reflex",
+			"isBackground": true,
+		},
+		{
+			"label": "r/docs:bundle",
+			"type": "shell",
+			"command": "bash -i run.sh docs:bundle",
+		},
+		{
+			"label": "r/up:hugo",
+			"type": "shell",
+			"command": "bash -i run.sh up:hugo",
+			"isBackground": true,
+		},
+		{
+			"label": "r/docs:publish",
+			"type": "shell",
+			"command": "bash -i run.sh docs:publish",
 		},
     ],
 }

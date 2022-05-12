@@ -9,10 +9,10 @@ import (
 
 	"github.com/barklan/logbeam/pkg/security"
 	"github.com/go-chi/chi/v5"
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
-func TestController_getAuthToken(t *testing.T) {
+func TestServer_getAuthToken(t *testing.T) {
 	t.Parallel()
 	tests := []struct {
 		name       string
@@ -42,7 +42,7 @@ func TestController_getAuthToken(t *testing.T) {
 	for _, tt := range tests { // nolint:paralleltest
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			c := NewMockController(t)
+			s := NewTestServer(t)
 			rr := httptest.NewRecorder()
 			r := httptest.NewRequest("GET", "/", nil)
 
@@ -51,22 +51,22 @@ func TestController_getAuthToken(t *testing.T) {
 			rctx.URLParams.Add("password", tt.password)
 			r = r.WithContext(context.WithValue(r.Context(), chi.RouteCtxKey, rctx))
 
-			c.getAuthToken(rr, r)
-			assert.Equal(t, tt.statusCode, rr.Code)
+			s.getAuthToken(rr, r)
+			require.Equal(t, tt.statusCode, rr.Code)
 
 			if rr.Code == http.StatusOK {
 				var auth AuthToken
 				err := json.Unmarshal(rr.Body.Bytes(), &auth)
-				assert.NoError(t, err)
+				require.NoError(t, err)
 				t.Logf("access_token: %q", auth.AccessToken)
-				ok, err := security.ValidateJWT(auth.AccessToken, c.conf.Secret)
-				assert.NoError(t, err)
-				assert.True(t, ok)
+				ok, err := security.ValidateJWT(auth.AccessToken, s.conf.Secret)
+				require.NoError(t, err)
+				require.True(t, ok)
 			} else {
 				var errResp ErrorResp
 				err := json.Unmarshal(rr.Body.Bytes(), &errResp)
-				assert.NoError(t, err)
-				assert.GreaterOrEqual(t, len(errResp.Msg), 10)
+				require.NoError(t, err)
+				require.GreaterOrEqual(t, len(errResp.Error.Message), 10)
 			}
 		})
 	}

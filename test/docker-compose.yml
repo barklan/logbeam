@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+
+  capture:
+    container_name: capture
+    build:
+      context: ../
+      dockerfile: test/capture/Dockerfile
+    networks:
+      - traefik-public
+    ports:
+      - 8900:8900
+    volumes:
+      - ../.cache:/home/app/.cache
+
+  fluentd:
+    build:
+      context: ../dockerfiles/fluentd-logbeam
+      dockerfile: Dockerfile
+    container_name: fluend-logbeam
+    networks:
+      - traefik-public
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    environment:
+      LOGBEAM_HTTP_DUMP_ENDPOINT: 'http://host.docker.internal:8900/input/fluentd'
+      LOGBEAM_HOSTNAME: 'testenv'
+      LOGBEAM_USER: '12345'
+      LOGBEAM_PASSWORD: '0b6badb2-edbe-458c-a6af-df49e393e5fc'
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+
+  flooder:
+    entrypoint: [ "bash", "/entrypoint.local.sh" ]
+    ports:
+      - 8000:8000
+    build:
+      context: ./flooder
+      dockerfile: Dockerfile
+      args:
+        BUILDKIT_INLINE_CACHE: 1
+    networks:
+      - traefik-public
+    logging:
+      driver: fluentd
+      options:
+        tag: "flooder"
+        fluentd-async-connect: "true"
+
+networks:
+  traefik-public:
+    external: false

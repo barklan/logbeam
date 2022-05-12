@@ -16,19 +16,10 @@ post:
           schema:
             type: object
             properties:
-              query_id:
-                type: integer
-                format: int64
-              msg:
+              requestId:
                 type: string
-    "400":
-      $ref: "../../openapi.yml#/components/responses/BadRequest"
-    "401":
-      $ref: "../../openapi.yml#/components/responses/Unauthorized"
-    "403":
-      $ref: "../../openapi.yml#/components/responses/Forbidden"
-    "404":
-      $ref: "../../openapi.yml#/components/responses/NotFound"
+              message:
+                type: string
     default:
       description: Unexpected error
       content:
@@ -44,10 +35,10 @@ get:
   parameters:
     - in: query
       required: true
-      name: queryID
+      name: requestId
       schema:
         type: string
-      description: Query ID.
+      description: Request ID.
   responses:
     "200":
       description: OK

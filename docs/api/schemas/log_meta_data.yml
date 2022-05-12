@@ -1,0 +1,14 @@
+type: object
+properties:
+  value:
+    type: object
+    properties:
+      hostTagPairs:
+        type: array
+        items:
+          type: object
+          properties:
+            hostname:
+              type: string
+            tag:
+              type: string

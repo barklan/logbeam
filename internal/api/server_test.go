@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func NewMockController(t *testing.T) *Controller {
+func NewTestServer(t *testing.T) *Server {
 	t.Helper()
 
 	lg, err := logging.Dev()
@@ -17,7 +17,7 @@ func NewMockController(t *testing.T) *Controller {
 	conf, err := config.Read()
 	assert.NoError(t, err)
 
-	ctrl := NewController(lg, conf)
+	ctrl := NewServer(lg, conf)
 
 	return ctrl
 }
